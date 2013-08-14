@@ -35,7 +35,7 @@ describe BillingLogic::BillingCycle do
     end
   end
 
-  context "a billing cycle with anniversary" do
+  describe "#next_payment_date" do
 
     before do
       Time.zone = "Eastern Time (US & Canada)"
@@ -43,31 +43,31 @@ describe BillingLogic::BillingCycle do
       Timecop.travel(@noon_on_may_27)
     end
 
-    context "anniversary is today" do
+    context "when it's today" do
       before do
         @cycle_starting_today = BillingLogic::BillingCycle.new(:period => :month,
                                                                :frequency => 1,
                                                                :anniversary => @noon_on_may_27.to_date)
       end
 
-      it "correctly calculates future anniversary dates" do
+      it "correctly calculates the next payment date" do
         @noon_on_june_27 = Time.zone.local(2013,6,27,12,0,0)
-        @cycle_starting_today.closest_future_anniversary_date_including(@noon_on_may_27.to_date).should == @noon_on_june_27.to_date
+        @cycle_starting_today.next_payment_date.should == @noon_on_june_27.to_date
       end
 
     end
 
-    context "anniversary is exactly two cycles ago" do
+    context "when it's exactly one month from now" do
       before do
-        @noon_on_july_27 = Time.zone.local(2013,7,27,12,0,0)
+        @noon_on_june_27 = Time.zone.local(2013,6,27,12,0,0)
         @cycle_starting_today = BillingLogic::BillingCycle.new(:period => :month,
                                                                :frequency => 1,
-                                                               :anniversary => @noon_on_july_27.to_date)
+                                                               :anniversary => @noon_on_june_27.to_date)
       end
 
-      it "correctly calculates future anniversary dates" do
-        @noon_on_june_27 = Time.zone.local(2013,6,27,12,0,0)
-        @cycle_starting_today.closest_future_anniversary_date_including(@noon_on_may_27.to_date).should == @noon_on_june_27.to_date
+      it "correctly calculates the next payment date" do
+        @noon_on_july_27 = Time.zone.local(2013,7,27,12,0,0)
+        @cycle_starting_today.next_payment_date.should == @noon_on_july_27.to_date
       end
 
     end
