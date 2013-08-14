@@ -22,34 +22,17 @@ module BillingLogic
       (closest_anniversary_date_including(date) - anniversary).abs
     end
 
+    # anniversary will always equal date
     def next_payment_date
-      closest_future_anniversary_date_including(anniversary)
+      increment_date_by_period(anniversary)
     end
     
+    # used for prorationing in the single payment strategy (that we're not currently using)
     def closest_anniversary_date_including(date) 
       if date < anniversary
         decrement_date_by_period(anniversary)
       else
         increment_date_by_period(anniversary)
-      end
-    end
-
-    def closest_future_anniversary_date_including(date)
-      if anniversary == date
-        increment_date_by_period(anniversary.dup)
-      elsif anniversary > date
-        prev_anniversary = anniversary.dup
-        while (date < prev_anniversary)
-          old_prev_anniversary = prev_anniversary
-          prev_anniversary = decrement_date_by_period(prev_anniversary)
-        end
-        old_prev_anniversary
-      else
-        next_anniversary = anniversary.dup
-        while (date > next_anniversary) 
-          next_anniversary = increment_date_by_period(next_anniversary)
-        end
-        next_anniversary
       end
     end
 
