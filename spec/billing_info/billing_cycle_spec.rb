@@ -81,7 +81,22 @@ describe BillingLogic::BillingCycle do
       end
 
       it "correctly calculates future anniversary dates" do
-        @cycle_starting_tomorrow.closest_future_anniversary_date_including(@noon_on_may_27.to_date).should == @noon_on_may_28.to_date
+        @cycle_starting_tomorrow.next_payment_date.should == @noon_on_may_28.to_date
+      end
+
+    end
+
+    context "anniversary is almost a month ago" do
+      before do
+        @noon_on_april_28 = Time.zone.local(2013,4,28,12,0,0)
+        @noon_on_may_28 = Time.zone.local(2013,5,28,12,0,0)
+        @cycle_starting_almost_a_month_ago = BillingLogic::BillingCycle.new(:period => :month,
+                                                                            :frequency => 1,
+                                                    :anniversary => @noon_on_april_28.to_date)
+      end
+
+      it "correctly calculates future anniversary dates" do
+        @cycle_starting_almost_a_month_ago.next_payment_date.should == @noon_on_may_28.to_date
       end
 
     end
@@ -96,7 +111,7 @@ describe BillingLogic::BillingCycle do
       end
 
       it "correctly calculates future anniversary dates" do
-        @cycle_starting_yesterday.closest_future_anniversary_date_including(@noon_on_may_27.to_date).should == @noon_on_june_26.to_date
+        @cycle_starting_yesterday.next_payment_date.should == @noon_on_june_26.to_date
       end
 
     end
