@@ -72,19 +72,19 @@ describe BillingLogic::BillingCycle do
 
     end
 
-    context "anniversary is tomorrow" do
-      before do
-        @noon_on_may_28 = Time.zone.local(2013,5,28,12,0,0)
-        @cycle_starting_tomorrow = BillingLogic::BillingCycle.new(:period => :month,
-                                                               :frequency => 1,
-                                                               :anniversary => @noon_on_may_28.to_date)
-      end
+    #context "anniversary is tomorrow" do
+    #  before do
+    #    @noon_on_may_28 = Time.zone.local(2013,5,28,12,0,0)
+    #    @cycle_starting_tomorrow = BillingLogic::BillingCycle.new(:period => :month,
+    #                                                           :frequency => 1,
+    #                                                           :anniversary => @noon_on_may_28.to_date)
+    #  end
 
-      it "correctly calculates future anniversary dates" do
-        @cycle_starting_tomorrow.next_payment_date.should == @noon_on_may_28.to_date
-      end
+    #  it "correctly calculates future anniversary dates" do
+    #    @cycle_starting_tomorrow.next_payment_date.should == @noon_on_may_28.to_date
+    #  end
 
-    end
+    #end
 
     context "anniversary is almost a month ago" do
       before do
