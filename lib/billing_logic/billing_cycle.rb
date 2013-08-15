@@ -30,12 +30,14 @@ module BillingLogic
       (closest_anniversary_date_including(date) - anniversary).abs
     end
 
+    # Date on which the next payment is due and scheduled to be paid
     # anniversary will always equal date
     def next_payment_date
       increment_date_by_period(anniversary)
     end
     
-    # used for prorationing in the single payment strategy (that we're not currently using)
+    # Used for prorationing in the single payment strategy
+    # Not currently in use
     def closest_anniversary_date_including(date) 
       if date < anniversary
         decrement_date_by_period(anniversary)
