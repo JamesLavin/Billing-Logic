@@ -143,8 +143,9 @@ module BillingLogic::Strategies
     end
 
     def next_payment_date_from_profile_with_product(product, opts = {:active => false})
-      temp_profiles = opts[:active] ? active_or_pending_profiles : neither_active_nor_pending_profiles
-      temp_profiles.map do |profile|
+      #temp_profiles = opts[:active] ? active_or_pending_profiles : neither_active_nor_pending_profiles
+      #temp_profiles.map do |profile|
+      profiles_by_status(opts[:active]).map do |profile|
         profile.paid_until_date if ProductComparator.new(product).in_class_of?(profile.products)
       end.compact.max
     end
